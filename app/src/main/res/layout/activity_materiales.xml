@@ -6,8 +6,14 @@
     android:padding="16dp"
     android:background="#FBEAE7">
 
+    <Button
+        android:id="@+id/btnAgregarPedido"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Agregar Materiales" />
+
     <ListView
         android:id="@+id/listMateriales"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
 </LinearLayout>

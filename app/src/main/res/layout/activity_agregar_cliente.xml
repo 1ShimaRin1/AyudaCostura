@@ -5,80 +5,71 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="#FBEAE7">
-
-    <ImageView
-        android:id="@+id/ImgLogo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.076"
-        tools:srcCompat="@tools:sample/avatars" />
+    android:background="#FBEAE7"
+    tools:context=".AgregarCliente">
 
     <TextView
-        android:id="@+id/txtTitulo"
-        android:layout_width="155dp"
-        android:layout_height="26dp"
-        android:text="Ayuda Costura"
+        android:id="@+id/textView"
+        android:layout_width="139dp"
+        android:layout_height="23dp"
+        android:text="Ingresar Nombre"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.073"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.266" />
+        app:layout_constraintVertical_bias="0.12" />
 
-    <Button
-        android:id="@+id/btnIniciarConGoogle"
+    <TextView
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Iniciar sesion con google"
+        android:text="Ingresar Telefono"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.059"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.742" />
+        android:background="#FBEAE7"
+        app:layout_constraintVertical_bias="0.262" />
 
     <EditText
-        android:id="@+id/txtNombre"
-        android:layout_width="266dp"
-        android:layout_height="54dp"
+        android:id="@+id/editTextText"
+        android:layout_width="371dp"
+        android:layout_height="48dp"
         android:ems="10"
         android:inputType="text"
         android:text="Name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.472"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.352" />
+        app:layout_constraintVertical_bias="0.158" />
 
     <EditText
-        android:id="@+id/txtPass"
-        android:layout_width="268dp"
-        android:layout_height="62dp"
+        android:id="@+id/editTextText2"
+        android:layout_width="392dp"
+        android:layout_height="50dp"
         android:ems="10"
-        android:inputType="textPassword"
-        android:text="a"
+        android:inputType="text"
+        android:text="Name"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.472"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.448" />
+        app:layout_constraintVertical_bias="0.302" />
 
     <Button
-        android:id="@+id/btnIniciarSesion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Iniciar sesion"
+        android:id="@+id/button"
+        android:layout_width="304dp"
+        android:layout_height="72dp"
+        android:text="Registrar Cliente"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.543" />
-
+        app:layout_constraintVertical_bias="0.499" />
 </androidx.constraintlayout.widget.ConstraintLayout>
