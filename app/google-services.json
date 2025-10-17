@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "906159227217",
+    "project_id": "ayudacostura",
+    "storage_bucket": "ayudacostura.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:906159227217:android:82eeece6d847ed372cd370",
+        "android_client_info": {
+          "package_name": "com.example.ayudacostura"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLMPxA7Ry030RXTgcvxIKCK_v7eDBnAqE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

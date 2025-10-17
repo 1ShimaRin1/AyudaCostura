@@ -8,17 +8,30 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
 public class AgregarPedido extends AppCompatActivity {
+    private Spinner spinnerOpciones;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_agregar_pedido);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+
+        spinnerOpciones = findViewById(R.id.spinnerOpciones);
+
+        String[] opciones = {"En espera", "En Proceso"};
+
+        // Adaptador que conecta los datos con el Spinner
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, opciones);
+
+        // Estilo para cuando se despliega el menú
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Asignar el adaptador al Spinner
+        spinnerOpciones.setAdapter(adapter);
     }
 }
