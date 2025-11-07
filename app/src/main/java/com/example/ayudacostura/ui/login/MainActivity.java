@@ -34,13 +34,6 @@ public class MainActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         tvRegister = findViewById(R.id.tvRegister);
 
-        btnLogin.setOnClickListener(v -> loginUser());
-
-        tvRegister.setOnClickListener(v -> {
-            // Aquí puedes abrir tu pantalla de registro si la tienes
-        });
-    }
-
     private void loginUser() {
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
