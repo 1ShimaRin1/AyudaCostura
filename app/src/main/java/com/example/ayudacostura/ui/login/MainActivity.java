@@ -34,6 +34,12 @@ public class MainActivity extends AppCompatActivity {
         btnLogin = findViewById(R.id.btnLogin);
         tvRegister = findViewById(R.id.tvRegister);
 
+        btnLogin.setOnClickListener(v -> loginUser());
+
+        tvRegister.setOnClickListener(v -> {
+        });
+    }
+
     private void loginUser() {
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
