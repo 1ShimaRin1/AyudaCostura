@@ -14,7 +14,7 @@
 
         <!-- Título -->
         <TextView
-            android:text="Inicio de Sesión"
+            android:text="Registro de Usuario"
             android:textSize="26sp"
             android:textStyle="bold"
             android:textColor="#333333"
@@ -30,7 +30,6 @@
             app:boxStrokeColor="#6A1B9A"
             app:hintTextColor="#6A1B9A"
             android:hint="Correo electrónico">
-
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etEmail"
@@ -57,25 +56,42 @@
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Botón de inicio de sesión -->
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnLogin"
+        <!-- Confirmar contraseña -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Iniciar Sesión"
+            app:boxStrokeColor="#6A1B9A"
+            app:hintTextColor="#6A1B9A"
+            android:layout_marginTop="16dp"
+            android:hint="Confirmar contraseña">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etConfirmPassword"
+                android:layout_width="match_parent"
+                android:textColor="#333333"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Botón de registro -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnRegistrar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Crear Cuenta"
             android:layout_marginTop="32dp"
             android:textColor="@android:color/white"
             android:textAllCaps="false"
             app:cornerRadius="12dp"
             android:backgroundTint="#7B3CBA"
-            app:icon="@drawable/baseline_login_24"
+            app:icon="@drawable/baseline_person_add_24"
             app:iconGravity="textStart"
             app:iconPadding="8dp" />
 
-        <!-- Enlace de registro -->
+        <!-- Enlace de inicio de sesión -->
         <TextView
-            android:id="@+id/tvRegister"
-            android:text="¿No tienes cuenta? Regístrate"
+            android:id="@+id/tvLogin"
+            android:text="¿Ya tienes cuenta? Inicia sesión"
             android:textColor="#1976D2"
             android:textSize="14sp"
             android:layout_marginTop="20dp"

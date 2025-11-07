@@ -1,17 +1,17 @@
-package com.example.ayudacostura;
+package com.example.ayudacostura.ui.login;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ayudacostura.ui.menu.MenuActivity;
+import com.example.ayudacostura.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -75,6 +75,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, MenuActivity.class));
             finish();
         }
+
+        tvRegister.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, com.example.ayudacostura.ui.registros.RegistroActivity.class);
+            startActivity(intent);
+        });
     }
 }
 

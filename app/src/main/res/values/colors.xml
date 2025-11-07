@@ -2,4 +2,13 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="color_borde">#6A1B9A</color>      <!-- morado oscuro para bordes -->
+    <color name="color_texto_boton">@android:color/white</color> <!-- blanco -->
+
+    <color name="color_primario">#7B3CBA</color>     <!-- Morado principal -->
+    <color name="color_primario_oscuro">#6A1B9A</color> <!-- Morado oscuro -->
+    <color name="color_texto">#333333</color>        <!-- Gris oscuro -->
+    <color name="color_fondo">#FBEAE7</color>        <!-- Fondo rosado claro -->
+    <color name="color_boton_texto">@android:color/white</color> <!-- Blanco -->
 </resources>

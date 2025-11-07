@@ -1,9 +1,21 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.AyudaCostura" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+
+    <style name="Theme.AyudaCostura" parent="Theme.Material3.Light.NoActionBar">
+        <!-- 🎨 Colores globales -->
+        <item name="colorPrimary">@color/color_primario</item>
+        <item name="colorPrimaryDark">@color/color_primario_oscuro</item>
+        <item name="colorOnPrimary">@color/color_boton_texto</item>
+        <item name="android:colorBackground">@color/color_fondo</item>
+        <item name="android:textColor">@color/color_texto</item>
+
+        <!-- 🔘 Botones (MaterialButton) -->
+        <item name="materialButtonStyle">@style/Widget.AyudaCostura.Boton</item>
+
+        <!-- ✏️ Campos de texto (TextInputLayout / EditText) -->
+        <item name="textInputStyle">@style/Widget.AyudaCostura.TextInputLayout</item>
+
+        <!-- 🏷️ TextViews -->
+        <item name="android:textViewStyle">@style/Widget.AyudaCostura.Texto</item>
     </style>
 
-    <style name="Theme.AyudaCostura" parent="Base.Theme.AyudaCostura" />
 </resources>

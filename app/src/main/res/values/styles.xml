@@ -1,0 +1,25 @@
+<resources>
+
+    <!-- 🔘 Botones globales -->
+    <style name="Widget.AyudaCostura.Boton" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">@color/color_primario</item>
+        <item name="android:textColor">@color/color_boton_texto</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="cornerRadius">12dp</item>
+    </style>
+
+    <!-- ✏️ Campos de texto -->
+    <style name="Widget.AyudaCostura.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/color_primario_oscuro</item>
+        <item name="hintTextColor">@color/color_primario_oscuro</item>
+        <item name="android:textColor">@color/color_texto</item>
+    </style>
+
+    <!-- 🏷️ Texto general -->
+    <style name="Widget.AyudaCostura.Texto" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:textColor">@color/color_texto</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+</resources>

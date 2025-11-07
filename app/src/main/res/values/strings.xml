@@ -2,4 +2,9 @@
     <string name="app_name">AyudaCostura</string>
 
     <string name="google_maps_key">TU_CLAVE_API_AQUI</string>
+
+    <string-array name="tipos_costura">
+        <item>Arreglo</item>
+        <item>Confeccionar</item>
+    </string-array>
 </resources>

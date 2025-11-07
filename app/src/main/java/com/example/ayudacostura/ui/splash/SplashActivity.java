@@ -1,10 +1,13 @@
-package com.example.ayudacostura;
+package com.example.ayudacostura.ui.splash;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.ayudacostura.ui.login.MainActivity;
+import com.example.ayudacostura.R;
 
 public class SplashActivity extends AppCompatActivity {
 

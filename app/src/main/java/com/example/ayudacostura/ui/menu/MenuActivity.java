@@ -1,4 +1,4 @@
-package com.example.ayudacostura;
+package com.example.ayudacostura.ui.menu;
 
 import android.Manifest;
 import android.content.Intent;
@@ -17,6 +17,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.activity.EdgeToEdge;
 
+import com.example.ayudacostura.ui.clientes.ClientesActivity;
+import com.example.ayudacostura.ui.login.MainActivity;
+import com.example.ayudacostura.ui.materiales.MaterialesActivity;
+import com.example.ayudacostura.ui.pedidos.PedidosActivity;
+import com.example.ayudacostura.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
