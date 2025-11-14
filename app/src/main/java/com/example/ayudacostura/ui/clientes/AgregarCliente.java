@@ -35,9 +35,14 @@ public class AgregarCliente extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(ClientesViewModel.class);
 
         // Observa mensajes desde el ViewModel
-        viewModel.getMensaje().observe(this, mensaje ->
-                Toast.makeText(AgregarCliente.this, mensaje, Toast.LENGTH_SHORT).show()
-        );
+        viewModel.getMensaje().observe(this, mensaje -> {
+            Toast.makeText(AgregarCliente.this, mensaje, Toast.LENGTH_SHORT).show();
+
+            // 🔹 Si se agregó correctamente, volver a la pantalla anterior
+            if (mensaje.toLowerCase().contains("agregado correctamente")) {
+                finish();
+            }
+        });
 
         // Evento del botón
         btnGuardar.setOnClickListener(v -> {

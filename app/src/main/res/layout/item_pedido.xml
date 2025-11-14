@@ -14,6 +14,16 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Imagen más grande -->
+        <ImageView
+            android:id="@+id/imgPrendaPedido"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginBottom="10dp"
+            android:scaleType="centerCrop"
+            android:background="#DDDDDD" />
+
+        <!-- Nombre -->
         <TextView
             android:id="@+id/tvNombrePedido"
             android:layout_width="wrap_content"
@@ -23,6 +33,7 @@
             android:textSize="18sp"
             android:textColor="@android:color/black" />
 
+        <!-- Descripción -->
         <TextView
             android:id="@+id/tvDescripcionPedido"
             android:layout_width="wrap_content"
@@ -31,22 +42,25 @@
             android:textSize="14sp"
             android:layout_marginTop="4dp" />
 
+        <!-- Tipo -->
         <TextView
             android:id="@+id/tvTipoCostura"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tipo de costura: Arreglo"
+            android:text="Tipo de costura"
             android:textSize="14sp"
             android:layout_marginTop="4dp" />
 
+        <!-- Medidas (se mostrarán aquí) -->
         <TextView
-            android:id="@+id/tvMedidas"
+            android:id="@+id/tvMedidasPedido"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Medidas: N/A"
             android:textSize="14sp"
             android:layout_marginTop="4dp" />
 
+        <!-- Estado -->
         <TextView
             android:id="@+id/tvEstado"
             android:layout_width="wrap_content"
@@ -63,7 +77,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="end"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="12dp">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnEditarPedido"
@@ -78,9 +92,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Eliminar"
-                android:textAllCaps="false" />
+                android:textAllCaps="false"
+                android:layout_marginEnd="8dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCompletarPedido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Completar"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:backgroundTint="@android:color/holo_green_dark" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnMensajePedido"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Mensaje"
+                android:textAllCaps="false"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="#7B3CBA"
+                android:textColor="@android:color/white"
+                android:visibility="gone" />
+
         </LinearLayout>
 
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
+

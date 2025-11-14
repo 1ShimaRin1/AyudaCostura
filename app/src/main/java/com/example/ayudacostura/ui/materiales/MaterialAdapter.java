@@ -3,7 +3,9 @@ package com.example.ayudacostura.ui.materiales;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,10 +16,17 @@ import java.util.List;
 
 public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.MaterialViewHolder> {
 
-    private List<Material> materiales;
+    public interface OnItemClickListener {
+        void onEditClick(Material material);
+        void onDeleteClick(Material material);
+    }
 
-    public MaterialAdapter(List<Material> materiales) {
+    private List<Material> materiales;
+    private final OnItemClickListener listener;
+
+    public MaterialAdapter(List<Material> materiales, OnItemClickListener listener) {
         this.materiales = materiales;
+        this.listener = listener;
     }
 
     public void setMateriales(List<Material> materiales) {
@@ -39,21 +48,27 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.Materi
         holder.tvNombre.setText(m.getNombre());
         holder.tvCantidad.setText("Cantidad: " + m.getCantidad());
         holder.tvDescripcion.setText(m.getDescripcion());
+
+        holder.btnEditar.setOnClickListener(v -> listener.onEditClick(m));
+        holder.btnEliminar.setOnClickListener(v -> listener.onDeleteClick(m));
     }
 
     @Override
     public int getItemCount() {
-        return materiales.size();
+        return materiales != null ? materiales.size() : 0;
     }
 
     public static class MaterialViewHolder extends RecyclerView.ViewHolder {
         TextView tvNombre, tvCantidad, tvDescripcion;
+        Button btnEditar, btnEliminar;
 
         public MaterialViewHolder(@NonNull View itemView) {
             super(itemView);
             tvNombre = itemView.findViewById(R.id.tvNombreMaterial);
             tvCantidad = itemView.findViewById(R.id.tvCantidadMaterial);
             tvDescripcion = itemView.findViewById(R.id.tvDescripcionMaterial);
+            btnEditar = itemView.findViewById(R.id.btnEditarMaterial);
+            btnEliminar = itemView.findViewById(R.id.btnEliminarMaterial);
         }
     }
 }

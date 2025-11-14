@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class ClienteRepository {
+
     private final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("clientes");
 
     // 🔹 Agregar cliente
@@ -45,7 +46,6 @@ public class ClienteRepository {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Si hay error, podrías mostrar un log o enviar lista vacía
                 clientesLiveData.setValue(new ArrayList<>());
             }
         });
@@ -53,8 +53,36 @@ public class ClienteRepository {
         return clientesLiveData;
     }
 
-    // 🔹 Interfaz para callback del agregado
+    // ✅ NUEVO: Eliminar cliente
+    public void eliminarCliente(String clienteId, OnClienteEliminadoListener listener) {
+        ref.child(clienteId).removeValue()
+                .addOnSuccessListener(aVoid -> listener.onExito("Cliente eliminado correctamente"))
+                .addOnFailureListener(e -> listener.onError("Error al eliminar cliente: " + e.getMessage()));
+    }
+
+    // ✅ NUEVO: Actualizar cliente
+    public void actualizarCliente(String clienteId, String nombre, String telefono, OnClienteActualizadoListener listener) {
+        ref.child(clienteId).child("nombre").setValue(nombre);
+        ref.child(clienteId).child("telefono").setValue(telefono)
+                .addOnSuccessListener(aVoid -> listener.onExito("Cliente actualizado correctamente"))
+                .addOnFailureListener(e -> listener.onError("Error al actualizar cliente: " + e.getMessage()));
+    }
+
+    // 🔹 Interfaces para callbacks
+
     public interface OnClienteAgregadoListener {
+        void onExito(String mensaje);
+        void onError(String mensaje);
+    }
+
+    // ✅ NUEVA interfaz: para eliminación
+    public interface OnClienteEliminadoListener {
+        void onExito(String mensaje);
+        void onError(String mensaje);
+    }
+
+    // ✅ NUEVA interfaz: para actualización
+    public interface OnClienteActualizadoListener {
         void onExito(String mensaje);
         void onError(String mensaje);
     }

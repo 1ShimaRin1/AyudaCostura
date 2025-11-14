@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FBEAE7"
+    android:background="#FFF7F5"
     android:padding="20dp">
 
     <LinearLayout
@@ -11,39 +11,32 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Botón Volver (arriba a la izquierda) -->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnVolver"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:backgroundTint="?attr/colorPrimary"
-                android:text="Volver"
-                android:textColor="@android:color/white"
-                app:cornerRadius="12dp"
-                app:icon="@drawable/baseline_arrow_back_24"
-                app:iconGravity="textStart"
-                app:iconPadding="8dp" />
-        </RelativeLayout>
+        <!-- Botón Volver -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnVolver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="?attr/colorPrimary"
+            android:text="Volver"
+            android:textColor="@android:color/white"
+            app:cornerRadius="12dp"
+            app:icon="@drawable/baseline_arrow_back_24"
+            app:iconPadding="8dp"
+            app:iconGravity="textStart" />
 
         <!-- Título -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Agregar nuevo pedido"
+            android:textColor="#333333"
             android:textStyle="bold"
             android:textSize="22sp"
             android:layout_gravity="center_horizontal"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp" />
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp" />
 
-        <!-- Campo: Nombre -->
+        <!-- Nombre -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -52,26 +45,39 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etNombrePedido"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPersonName" />
+                android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Campo: Descripción -->
+        <!-- Cliente -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cliente"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"/>
+
+        <Spinner
+            android:id="@+id/spnCliente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp" />
+
+        <!-- Descripción -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Descripción"
-            android:layout_marginTop="12dp">
+            android:layout_marginTop="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etDescripcionPedido"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
-                android:minLines="3" />
+                android:minLines="3"
+                android:inputType="textMultiLine" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Selector de tipo de costura -->
+        <!-- Tipo de costura -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -83,9 +89,9 @@
             android:id="@+id/spnTipoCostura"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="6dp" />
 
-        <!-- Checkbox y campo de medidas -->
+        <!-- Medidas -->
         <CheckBox
             android:id="@+id/chkMedidas"
             android:text="Agregar medidas"
@@ -96,18 +102,34 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Medidas (opcional)"
-            android:layout_marginTop="8dp">
+            android:hint="Medidas"
+            android:layout_marginTop="6dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etMedidas"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:enabled="false"
-                android:inputType="text" />
+                android:enabled="false" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Botón Guardar -->
+        <!-- Imagen -->
+        <ImageView
+            android:id="@+id/imgPrenda"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:src="@drawable/baseline_image_24"
+            android:layout_marginTop="20dp" />
+
+        <Button
+            android:id="@+id/btnTomarFoto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Tomar foto" />
+
+        <!-- Guardar -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnGuardarPedido"
             android:layout_width="match_parent"
@@ -116,7 +138,7 @@
             android:textColor="@android:color/white"
             android:backgroundTint="?attr/colorPrimary"
             app:cornerRadius="12dp"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="24dp"/>
 
     </LinearLayout>
 </ScrollView>
