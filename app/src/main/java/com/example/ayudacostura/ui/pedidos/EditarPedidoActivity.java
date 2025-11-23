@@ -13,23 +13,28 @@ import com.google.android.material.textfield.TextInputEditText;
 
 public class EditarPedidoActivity extends AppCompatActivity {
 
+    // Inputs principales
     private TextInputEditText txtNombre, txtDescripcion, txtMedidas;
     private CheckBox chkMedidas;
-    private MaterialButton btnGuardar;
 
+    // Botones
+    private MaterialButton btnGuardar;
+    private MaterialButton btnVolver;
+
+    // Firebase y modelo
     private PedidoRepository repository;
     private Pedido pedido;
     private String pedidoId;
-    private MaterialButton btnVolver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_pedido);
 
+        // Repositorio para Firebase
         repository = new PedidoRepository();
 
-        // Recibir ID
+        // ID recibido desde el intent
         pedidoId = getIntent().getStringExtra("pedidoId");
 
         // Referencias UI
@@ -38,54 +43,60 @@ public class EditarPedidoActivity extends AppCompatActivity {
         txtMedidas = findViewById(R.id.etMedidas);
         chkMedidas = findViewById(R.id.chkMedidas);
         btnGuardar = findViewById(R.id.btnGuardarPedido);
-
         btnVolver = findViewById(R.id.btnVolver);
+
+        // Botón volver
         btnVolver.setOnClickListener(v -> finish());
 
-        // Desactivar campo medidas por defecto
+        // Por defecto las medidas están desactivadas
         txtMedidas.setEnabled(false);
 
-        // Listener del checkbox
+        // ✔️ Si el checkbox cambia, habilita o limpia el campo de medidas
         chkMedidas.setOnCheckedChangeListener((buttonView, isChecked) -> {
             txtMedidas.setEnabled(isChecked);
-            if (!isChecked) txtMedidas.setText(""); // Si desmarcan, se limpian medidas
+            if (!isChecked) txtMedidas.setText("");
         });
 
-        // Cargar el pedido desde Firebase
+        // ✔️ Obtener datos del pedido desde Firebase
         repository.obtenerPedidoPorId(pedidoId, new PedidoRepository.OnPedidoCargadoListener() {
             @Override
             public void onPedidoCargado(Pedido p) {
                 pedido = p;
-                mostrarDatos();
+                mostrarDatos();  // Cargar valores en la UI
             }
 
             @Override
             public void onError(Exception e) {
-                // Manejo de error si lo deseas
+                // Error al cargar datos (puede loguearse si se desea)
             }
         });
 
-        // Guardar cambios
+        // ✔️ Guardar cambios del pedido
         btnGuardar.setOnClickListener(v -> {
             if (pedido != null) {
+
+                // Actualizar campos principales
                 pedido.setNombre(txtNombre.getText().toString());
                 pedido.setDescripcion(txtDescripcion.getText().toString());
 
+                // Manejo lógico del checkbox
                 if (chkMedidas.isChecked()) {
                     pedido.setMedidas(txtMedidas.getText().toString());
                 } else {
-                    pedido.setMedidas(""); // si está desmarcado, eliminar medidas
+                    pedido.setMedidas("");
                 }
 
+                // Guardar en Firebase
                 repository.actualizarPedido(
                         pedido,
-                        mensaje -> finish(),   // Éxito: cerrar activity
-                        error -> {}            // Manejo error
+                        mensaje -> finish(),   // Éxito → cerrar pantalla
+                        error -> {}            // Error → puedes loguearlo si quieres
                 );
             }
         });
     }
 
+    // ✔️ Cargar datos del pedido en los campos de la UI
     private void mostrarDatos() {
         if (pedido == null) return;
 
@@ -94,13 +105,10 @@ public class EditarPedidoActivity extends AppCompatActivity {
 
         boolean tieneMedidas = pedido.getMedidas() != null && !pedido.getMedidas().isEmpty();
 
+        // ✔️ Manejo del checkbox y habilitación del campo
         chkMedidas.setChecked(tieneMedidas);
         txtMedidas.setEnabled(tieneMedidas);
 
-        if (tieneMedidas) {
-            txtMedidas.setText(pedido.getMedidas());
-        } else {
-            txtMedidas.setText("");
-        }
+        txtMedidas.setText(tieneMedidas ? pedido.getMedidas() : "");
     }
 }

@@ -5,32 +5,31 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     card_view:cardCornerRadius="12dp"
-    card_view:cardElevation="6dp"
-    android:foreground="?attr/selectableItemBackground">
+    card_view:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="12dp">
 
-        <!-- Imagen más grande -->
+        <!-- Imagen del pedido (igual tamaño que materiales) -->
         <ImageView
             android:id="@+id/imgPrendaPedido"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginBottom="10dp"
+            android:layout_height="180dp"
             android:scaleType="centerCrop"
             android:background="#DDDDDD" />
 
-        <!-- Nombre -->
+        <!-- Nombre del pedido -->
         <TextView
             android:id="@+id/tvNombrePedido"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Nombre del Pedido"
             android:textStyle="bold"
-            android:textSize="18sp"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"
             android:textColor="@android:color/black" />
 
         <!-- Descripción -->
@@ -40,25 +39,28 @@
             android:layout_height="wrap_content"
             android:text="Descripción"
             android:textSize="14sp"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="4dp"
+            android:textColor="@android:color/darker_gray" />
 
-        <!-- Tipo -->
+        <!-- Tipo de costura -->
         <TextView
             android:id="@+id/tvTipoCostura"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tipo de costura"
             android:textSize="14sp"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="4dp"
+            android:textColor="@android:color/darker_gray" />
 
-        <!-- Medidas (se mostrarán aquí) -->
+        <!-- Medidas -->
         <TextView
             android:id="@+id/tvMedidasPedido"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Medidas: N/A"
             android:textSize="14sp"
-            android:layout_marginTop="4dp" />
+            android:layout_marginTop="4dp"
+            android:textColor="@android:color/darker_gray" />
 
         <!-- Estado -->
         <TextView
@@ -71,48 +73,49 @@
             android:layout_marginTop="6dp"
             android:textColor="@android:color/holo_orange_dark" />
 
-        <!-- Botones de acción -->
+        <!-- Botones -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="end"
-            android:layout_marginTop="12dp">
+            android:layout_marginTop="8dp">
 
-            <com.google.android.material.button.MaterialButton
+            <TextView
                 android:id="@+id/btnEditarPedido"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Editar"
-                android:textAllCaps="false"
-                android:layout_marginEnd="8dp" />
+                android:textColor="@android:color/holo_blue_dark"
+                android:padding="8dp" />
 
-            <com.google.android.material.button.MaterialButton
+            <TextView
                 android:id="@+id/btnEliminarPedido"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Eliminar"
-                android:textAllCaps="false"
-                android:layout_marginEnd="8dp" />
+                android:textColor="@android:color/holo_red_dark"
+                android:padding="8dp"
+                android:layout_marginStart="8dp" />
 
-            <com.google.android.material.button.MaterialButton
+            <TextView
                 android:id="@+id/btnCompletarPedido"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Completar"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:backgroundTint="@android:color/holo_green_dark" />
+                android:textColor="@android:color/holo_green_dark"
+                android:padding="8dp"
+                android:layout_marginStart="8dp" />
 
-            <com.google.android.material.button.MaterialButton
+            <TextView
                 android:id="@+id/btnMensajePedido"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Mensaje"
-                android:textAllCaps="false"
-                android:layout_marginStart="8dp"
-                android:backgroundTint="#7B3CBA"
                 android:textColor="@android:color/white"
+                android:padding="8dp"
+                android:layout_marginStart="8dp"
+                android:background="#7B3CBA"
                 android:visibility="gone" />
 
         </LinearLayout>
@@ -120,4 +123,3 @@
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
-

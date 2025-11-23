@@ -3,6 +3,8 @@
 
     <string name="google_maps_key">TU_CLAVE_API_AQUI</string>
     <string name="seleccionar_cliente">Seleccionar cliente</string>
+    <string name="titulo_eliminar_pedido">Eliminar pedido</string>
+    <string name="mensaje_eliminar_pedido">¿Seguro que deseas eliminar este pedido?</string>
 
 
     <string-array name="tipos_costura">

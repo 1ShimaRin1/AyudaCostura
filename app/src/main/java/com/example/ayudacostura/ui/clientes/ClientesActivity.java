@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ayudacostura.Data.model.Cliente;
 import com.example.ayudacostura.R;
-import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 
@@ -25,7 +24,7 @@ public class ClientesActivity extends AppCompatActivity {
     private RecyclerView recyclerClientes;
     private ClienteAdapter adapter;
     private ClientesViewModel viewModel;
-    private MaterialButton btnVolver;
+    private Button btnVolver;
     private EditText etBuscarCliente;
 
     @Override
@@ -34,7 +33,9 @@ public class ClientesActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_clientes);
 
-        // 🔹 Inicializar vistas
+        // ------------------------------------------------------------------
+        // VISTAS
+        // ------------------------------------------------------------------
         btnVolver = findViewById(R.id.btnVolver);
         btnAgregarClientes = findViewById(R.id.btnAgregarCliente);
         recyclerClientes = findViewById(R.id.recyclerClientes);
@@ -42,11 +43,16 @@ public class ClientesActivity extends AppCompatActivity {
 
         btnVolver.setOnClickListener(v -> finish());
 
-        // 🔹 ViewModel
+        // ------------------------------------------------------------------
+        // VIEWMODEL
+        // ------------------------------------------------------------------
         viewModel = new ViewModelProvider(this).get(ClientesViewModel.class);
 
-        // 🔹 Adapter con botones de editar y eliminar
+        // ------------------------------------------------------------------
+        // ADAPTER (con editar y eliminar)
+        // ------------------------------------------------------------------
         adapter = new ClienteAdapter(new ArrayList<>(), new ClienteAdapter.OnItemClickListener() {
+
             @Override
             public void onEditClick(Cliente cliente) {
                 Intent intent = new Intent(ClientesActivity.this, EditarClienteActivity.class);
@@ -56,28 +62,30 @@ public class ClientesActivity extends AppCompatActivity {
 
             @Override
             public void onDeleteClick(Cliente cliente) {
-                // Inflar el diseño personalizado del diálogo
-                android.view.View dialogView = getLayoutInflater().inflate(R.layout.dialog_eliminar_cliente, null);
 
-                // Obtener referencias a los elementos del layout
-                android.widget.TextView tvTitulo = dialogView.findViewById(R.id.tvDialogTitulo);
+                // Inflar diseño del diálogo
+                android.view.View dialogView = getLayoutInflater()
+                        .inflate(R.layout.dialog_eliminar_cliente, null);
+
+                // Referencias
                 android.widget.TextView tvMensaje = dialogView.findViewById(R.id.tvDialogMensaje);
                 Button btnCancelar = dialogView.findViewById(R.id.btnCancelarDialog);
                 Button btnEliminar = dialogView.findViewById(R.id.btnEliminarDialog);
 
-                // Personalizar texto dinámico
+                // Texto dinámico
                 tvMensaje.setText("¿Seguro que deseas eliminar a " + cliente.getNombre() + "?");
 
-                // Crear y mostrar el diálogo
+                // Crear diálogo
                 AlertDialog dialog = new AlertDialog.Builder(ClientesActivity.this)
                         .setView(dialogView)
                         .create();
 
                 dialog.show();
 
-                // Acciones de los botones
+                // Cancelar
                 btnCancelar.setOnClickListener(v -> dialog.dismiss());
 
+                // Confirmar eliminación
                 btnEliminar.setOnClickListener(v -> {
                     viewModel.eliminarCliente(cliente.getId());
                     Toast.makeText(ClientesActivity.this, "Cliente eliminado", Toast.LENGTH_SHORT).show();
@@ -89,16 +97,22 @@ public class ClientesActivity extends AppCompatActivity {
         recyclerClientes.setLayoutManager(new LinearLayoutManager(this));
         recyclerClientes.setAdapter(adapter);
 
-        // 🔹 Observar lista de clientes
+        // ------------------------------------------------------------------
+        // OBSERVAR CLIENTES EN TIEMPO REAL
+        // ------------------------------------------------------------------
         viewModel.getClientes().observe(this, clientes -> adapter.setClientes(clientes));
 
-        // 🔹 Botón agregar cliente
+        // ------------------------------------------------------------------
+        // AGREGAR CLIENTE
+        // ------------------------------------------------------------------
         btnAgregarClientes.setOnClickListener(v -> {
             Intent intent = new Intent(ClientesActivity.this, AgregarCliente.class);
             startActivity(intent);
         });
 
-        // 🔹 Buscador en tiempo real
+        // ------------------------------------------------------------------
+        // BUSCADOR DE CLIENTES (tiempo real)
+        // ------------------------------------------------------------------
         etBuscarCliente.addTextChangedListener(new android.text.TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}

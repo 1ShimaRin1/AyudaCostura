@@ -29,8 +29,10 @@ import java.util.List;
 
 public class AgregarPedido extends AppCompatActivity {
 
+    // Código de solicitud para la cámara
     private static final int REQUEST_IMAGE_CAPTURE = 1;
 
+    // Campos de entrada
     private EditText etNombre, etDescripcion, etMedidas;
     private Spinner spnTipoCostura, spnCliente;
     private CheckBox chkMedidas;
@@ -38,6 +40,8 @@ public class AgregarPedido extends AppCompatActivity {
     private MaterialButton btnVolver;
     private ImageView imgPrenda;
     private Uri imageUri;
+
+    // Lista para guardar los nombres de clientes desde Firebase
     private List<String> listaClientes = new ArrayList<>();
 
     private DatabaseReference dbRef;
@@ -47,7 +51,7 @@ public class AgregarPedido extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agregar_pedido);
 
-        // 🔹 Vincular vistas
+        // 🔹 Vincular vistas del XML
         etNombre = findViewById(R.id.etNombrePedido);
         etDescripcion = findViewById(R.id.etDescripcionPedido);
         spnTipoCostura = findViewById(R.id.spnTipoCostura);
@@ -57,21 +61,24 @@ public class AgregarPedido extends AppCompatActivity {
         btnVolver = findViewById(R.id.btnVolver);
         btnTomarFoto = findViewById(R.id.btnTomarFoto);
         imgPrenda = findViewById(R.id.imgPrenda);
-        spnCliente = findViewById(R.id.spnCliente); // 🧩 FALTABA ESTO
+        spnCliente = findViewById(R.id.spnCliente); // Spinner de clientes cargado desde Firebase
 
+        // 🔹 Deshabilitar campo medidas inicialmente
         etMedidas.setEnabled(false);
+
+        // Habilitar o deshabilitar campo de medidas según checkbox
         chkMedidas.setOnCheckedChangeListener((b, isChecked) -> etMedidas.setEnabled(isChecked));
 
-        // 🔹 Spinner Tipo de Costura
+        // 🔹 Inicializar spinner de tipos de costura con valores desde resources.xml
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this, R.array.tipos_costura, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnTipoCostura.setAdapter(adapter);
 
-        // 🔹 Conexión a Firebase
+        // 🔹 Referencia a Firebase en el nodo "pedidos"
         dbRef = FirebaseDatabase.getInstance().getReference("pedidos");
 
-        // 🔹 Cargar clientes desde Firebase
+        // Cargar lista de clientes desde Firebase
         cargarClientes();
 
         // 🔹 Botones
@@ -80,17 +87,22 @@ public class AgregarPedido extends AppCompatActivity {
         btnVolver.setOnClickListener(v -> finish());
     }
 
+    // Cargar nombres de clientes desde Firebase para el spinner
     private void cargarClientes() {
         DatabaseReference clientesRef = FirebaseDatabase.getInstance().getReference("clientes");
+
         clientesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listaClientes.clear();
+
+                // Recorre todos los clientes y extrae su nombre
                 for (DataSnapshot child : snapshot.getChildren()) {
                     String nombreCliente = child.child("nombre").getValue(String.class);
                     if (nombreCliente != null) listaClientes.add(nombreCliente);
                 }
 
+                // Asigna los nombres al spinner
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(
                         AgregarPedido.this,
                         android.R.layout.simple_spinner_item,
@@ -105,6 +117,7 @@ public class AgregarPedido extends AppCompatActivity {
         });
     }
 
+    // Verifica permisos de cámara antes de abrirla
     private void verificarPermisosYTomarFoto() {
         if (checkSelfPermission(android.Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -114,25 +127,34 @@ public class AgregarPedido extends AppCompatActivity {
         }
     }
 
+    // Abre la cámara del dispositivo
     private void abrirCamara() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
         if (intent.resolveActivity(getPackageManager()) != null) {
             File fotoArchivo = crearArchivoImagen();
+
+            // Si el archivo se creó correctamente, continúa
             if (fotoArchivo != null) {
+
+                // Crea un URI seguro usando FileProvider
                 imageUri = FileProvider.getUriForFile(
                         this,
                         getPackageName() + ".fileprovider",
                         fotoArchivo
                 );
+
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
                 startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
             }
         }
     }
 
+    // Crea un archivo temporal para guardar la foto capturada
     private File crearArchivoImagen() {
         String nombreArchivo = "pedido_" + System.currentTimeMillis();
         File directorio = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
         try {
             return File.createTempFile(nombreArchivo, ".jpg", directorio);
         } catch (IOException e) {
@@ -142,18 +164,22 @@ public class AgregarPedido extends AppCompatActivity {
         }
     }
 
+    // Recibe la imagen tomada y la muestra en el ImageView
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && imageUri != null) {
             imgPrenda.setImageURI(imageUri);
         }
     }
 
+    // Maneja respuesta de permisos
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
         if (requestCode == 100 && grantResults.length > 0 &&
                 grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             abrirCamara();
@@ -162,13 +188,16 @@ public class AgregarPedido extends AppCompatActivity {
         }
     }
 
+    // Guarda un nuevo pedido en Firebase
     private void guardarPedido() {
-        // 🧩 Previene NullPointer
+
+        // Evita errores si el spinner no está listo
         if (spnCliente == null || spnCliente.getSelectedItem() == null) {
             Toast.makeText(this, "Selecciona un cliente", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        // Obtiene valores del formulario
         String nombre = etNombre.getText().toString().trim();
         String clienteNombre = spnCliente.getSelectedItem().toString();
         String descripcion = etDescripcion.getText().toString().trim();
@@ -176,17 +205,22 @@ public class AgregarPedido extends AppCompatActivity {
         String medidas = chkMedidas.isChecked() ? etMedidas.getText().toString().trim() : "";
         String estado = "Pendiente";
 
+        // Validación básica
         if (nombre.isEmpty() || descripcion.isEmpty()) {
             Toast.makeText(this, "Completa los campos obligatorios", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // 🔹 Crear y guardar pedido
+        // Crea ID único
         String id = dbRef.push().getKey();
+
+        // Crea el objeto pedido
         Pedido pedido = new Pedido(id, nombre, descripcion, tipo, medidas, estado, clienteNombre);
 
+        // Guarda foto si existe
         if (imageUri != null) pedido.setImagenUrl(imageUri.toString());
 
+        // Guarda en Firebase
         if (id != null) {
             dbRef.child(id).setValue(pedido)
                     .addOnSuccessListener(aVoid -> {

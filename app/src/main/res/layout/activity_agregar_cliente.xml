@@ -60,22 +60,24 @@
                 android:inputType="textPersonName" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Campo: Teléfono -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Teléfono"
+            android:layout_marginTop="12dp"
             app:boxStrokeColor="#6A1B9A"
             app:hintTextColor="#6A1B9A"
-            android:hint="Teléfono"
-            android:layout_marginTop="12dp">
+            app:prefixText="+56 9 ">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/txtTelefono"
                 android:layout_width="match_parent"
-                android:textColor="#333333"
                 android:layout_height="wrap_content"
-                android:inputType="phone" />
+                android:inputType="number"
+                android:maxLength="8"
+                android:textColor="#333333"/>
         </com.google.android.material.textfield.TextInputLayout>
+
 
         <!-- Botón Guardar -->
         <com.google.android.material.button.MaterialButton

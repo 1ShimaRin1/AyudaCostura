@@ -2,50 +2,53 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:padding="24dp"
+    android:padding="28dp"
     android:background="@android:color/white"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal">
 
+    <!-- Título -->
     <TextView
         android:id="@+id/tvDialogTitulo"
         android:text="Eliminar cliente"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:textColor="@android:color/black"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center" />
+        android:textColor="#333333"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
+    <!-- Mensaje -->
     <TextView
         android:id="@+id/tvDialogMensaje"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         android:text="¿Seguro que deseas eliminar este cliente?"
         android:textSize="16sp"
-        android:textColor="@android:color/black"
+        android:textColor="#555555"
+        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center" />
+        android:layout_height="wrap_content" />
 
-    <!-- 🔹 Botones inferiores separados -->
+    <!-- Botones -->
     <LinearLayout
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="24dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
+        android:gravity="center"
         android:weightSum="2">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnCancelarDialog"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
             android:layout_weight="1"
+            android:backgroundTint="#9E9E9E"
             android:text="Cancelar"
+            android:textSize="14sp"
             android:textColor="@android:color/white"
-            android:backgroundTint="@android:color/darker_gray"
-            app:cornerRadius="16dp"
-            android:layout_marginEnd="8dp" />
+            app:cornerRadius="14dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnEliminarDialog"
@@ -53,9 +56,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Eliminar"
+            android:textSize="14sp"
             android:textColor="@android:color/white"
-            android:backgroundTint="@android:color/holo_red_dark"
-            app:cornerRadius="16dp"
-            android:layout_marginStart="8dp" />
+            android:backgroundTint="#D32F2F"
+            app:cornerRadius="14dp"
+            android:layout_marginStart="6dp" />
     </LinearLayout>
+
 </LinearLayout>

@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +21,7 @@ import java.util.List;
 public class PedidoAdapter extends RecyclerView.Adapter<PedidoAdapter.PedidoViewHolder> {
 
     // ----------------------------------------------------
-    //  Interface de eventos
+    // Interfaz para comunicar eventos al Activity/Fragment
     // ----------------------------------------------------
     public interface OnItemClickListener {
         void onEditClick(Pedido pedido);
@@ -38,13 +37,14 @@ public class PedidoAdapter extends RecyclerView.Adapter<PedidoAdapter.PedidoView
         this.listener = listener;
     }
 
+    // Recarga completa de la lista
     public void setPedidos(List<Pedido> nuevosPedidos) {
         this.pedidos = nuevosPedidos;
         notifyDataSetChanged();
     }
 
     // ----------------------------------------------------
-    //  Crear ViewHolder
+    // Crear ViewHolder
     // ----------------------------------------------------
     @NonNull
     @Override
@@ -55,14 +55,14 @@ public class PedidoAdapter extends RecyclerView.Adapter<PedidoAdapter.PedidoView
     }
 
     // ----------------------------------------------------
-    //  Vincular datos al ViewHolder
+    // Asignar datos a cada elemento de la lista
     // ----------------------------------------------------
     @Override
     public void onBindViewHolder(@NonNull PedidoViewHolder holder, int position) {
 
         Pedido pedido = pedidos.get(position);
 
-        // ------ Datos ------
+        // --- Información principal del pedido ---
         holder.tvNombre.setText(pedido.getNombre());
         holder.tvDescripcion.setText(pedido.getDescripcion());
         holder.tvTipoCostura.setText("Tipo: " + pedido.getTipoCostura());
@@ -70,26 +70,29 @@ public class PedidoAdapter extends RecyclerView.Adapter<PedidoAdapter.PedidoView
         holder.tvMedidas.setText("Medidas: " +
                 (pedido.getMedidas() != null ? pedido.getMedidas() : "N/A"));
 
-        // ------ Imagen ------
+        // --- Cargar imagen usando Glide ---
         if (pedido.getImagenUrl() != null && !pedido.getImagenUrl().isEmpty()) {
+
+            // Se usa Glide para cargar la imagen desde Firebase
             Glide.with(holder.itemView.getContext())
                     .load(Uri.parse(pedido.getImagenUrl()))
-                    .placeholder(R.drawable.placeholder_image)
-                    .error(R.drawable.error_image)
+                    .placeholder(R.drawable.placeholder_image)   // Mientras carga
+                    .error(R.drawable.error_image)               // Si falla la carga
                     .into(holder.imgPrenda);
+
         } else {
             holder.imgPrenda.setImageResource(R.drawable.placeholder_image);
         }
 
-        // ------ Mostrar/Ocultar Botones según estado ------
+        // --- Mostrar u ocultar botones según estado del pedido ---
         boolean completado = "Completado".equalsIgnoreCase(pedido.getEstado());
         holder.btnCompletar.setVisibility(completado ? View.GONE : View.VISIBLE);
         holder.btnMensaje.setVisibility(completado ? View.VISIBLE : View.GONE);
 
-        // ------ Botón Completar ------
+        // --- Botón: marcar como completado ---
         holder.btnCompletar.setOnClickListener(v -> {
             pedido.setEstado("Completado");
-            listener.onCompletarClick(pedido); // se avisa al ViewModel/Activity
+            listener.onCompletarClick(pedido);   // Notifica a la Activity/VM
             notifyItemChanged(position);
 
             Toast.makeText(holder.itemView.getContext(),
@@ -97,12 +100,12 @@ public class PedidoAdapter extends RecyclerView.Adapter<PedidoAdapter.PedidoView
                     Toast.LENGTH_SHORT).show();
         });
 
-        // ------ Botón Mensaje (copiar) ------
+        // --- Botón: copiar mensaje para enviar al cliente ---
         holder.btnMensaje.setOnClickListener(v -> {
 
-            // Mensaje tipo WhatsApp (solo con el nombre del pedido/cliente)
+            // Mensaje predefinido tipo WhatsApp
             String mensaje = "Hola " + pedido.getClienteNombre() +
-                    ", tu pedido ya está completado 😊.";
+                    ", tu pedido ya está listo 😊.";
 
             android.content.ClipboardManager clipboard =
                     (android.content.ClipboardManager)
@@ -117,7 +120,7 @@ public class PedidoAdapter extends RecyclerView.Adapter<PedidoAdapter.PedidoView
                     "Mensaje copiado", Toast.LENGTH_SHORT).show();
         });
 
-        // ------ Botones Editar / Eliminar ------
+        // --- Editar / Eliminar ---
         holder.btnEditar.setOnClickListener(v -> listener.onEditClick(pedido));
         holder.btnEliminar.setOnClickListener(v -> listener.onDeleteClick(pedido));
     }
@@ -128,13 +131,13 @@ public class PedidoAdapter extends RecyclerView.Adapter<PedidoAdapter.PedidoView
     }
 
     // ----------------------------------------------------
-    //  ViewHolder
+    // ViewHolder: referencias del item
     // ----------------------------------------------------
     static class PedidoViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvNombre, tvDescripcion, tvTipoCostura, tvEstado, tvMedidas;
+        TextView btnCompletar, btnEditar, btnEliminar, btnMensaje;
         ImageView imgPrenda;
-        Button btnCompletar, btnEditar, btnEliminar, btnMensaje;
 
         public PedidoViewHolder(@NonNull View itemView) {
             super(itemView);

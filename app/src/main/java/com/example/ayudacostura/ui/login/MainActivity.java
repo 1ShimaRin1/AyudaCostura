@@ -27,23 +27,30 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Inicializar Firebase Auth
         mAuth = FirebaseAuth.getInstance();
 
+        // Referencias UI
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
         tvRegister = findViewById(R.id.tvRegister);
 
+        // Botón iniciar sesión
         btnLogin.setOnClickListener(v -> loginUser());
 
+        // Botón ir al registro (se vuelve a asignar correctamente en onStart)
         tvRegister.setOnClickListener(v -> {
         });
     }
 
     private void loginUser() {
+
+        // Obtener datos ingresados
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
+        // Validaciones de campos vacíos
         if (TextUtils.isEmpty(email)) {
             etEmail.setError("Ingresa tu correo");
             return;
@@ -53,15 +60,25 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
+        // Autenticación con Firebase
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
+
+                    // Inicio de sesión correcto
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
-                        Toast.makeText(MainActivity.this, "Bienvenido " + user.getEmail(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this,
+                                "Bienvenido " + user.getEmail(),
+                                Toast.LENGTH_SHORT).show();
+
                         startActivity(new Intent(MainActivity.this, MenuActivity.class));
                         finish();
-                    } else {
-                        Toast.makeText(MainActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                    // Error en el login
+                    else {
+                        Toast.makeText(MainActivity.this,
+                                "Error: " + task.getException().getMessage(),
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -69,16 +86,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        // Si el usuario ya está logeado, saltar la pantalla de login
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
             startActivity(new Intent(MainActivity.this, MenuActivity.class));
             finish();
         }
 
+        // Botón para ir a la Activity de registro
         tvRegister.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, com.example.ayudacostura.ui.registros.RegistroActivity.class);
+            Intent intent = new Intent(MainActivity.this,
+                    com.example.ayudacostura.ui.registros.RegistroActivity.class);
             startActivity(intent);
         });
     }
 }
-

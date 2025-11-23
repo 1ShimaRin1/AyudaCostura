@@ -57,6 +57,19 @@
         app:iconPadding="8dp"
         android:layout_marginBottom="16dp" />
 
+    <EditText
+        android:id="@+id/searchViewMateriales"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Buscar Materiales..."
+        android:drawableStart="@android:drawable/ic_menu_search"
+        android:backgroundTint="#7B3CBA"
+        android:textColor="#333333"
+        android:textColorHint="#888888"
+        android:padding="10dp"
+        android:layout_marginBottom="12dp" />
+
+
     <!-- Lista de materiales -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerMateriales"

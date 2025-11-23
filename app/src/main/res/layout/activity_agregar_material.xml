@@ -3,105 +3,111 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
-    android:background="#FBEAE7">
+    android:background="#FBEAE7"
+    android:padding="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Encabezado con botón volver -->
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnVolver"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="8dp"
-                android:text="Volver"
-                android:textColor="@android:color/white"
-                android:backgroundTint="#7B3CBA"
-                app:cornerRadius="12dp"
-                app:icon="@drawable/baseline_arrow_back_24"
-                app:iconGravity="textStart"
-                app:iconPadding="8dp" />
-        </RelativeLayout>
-
-        <!-- Título -->
-        <TextView
+        <!-- Botón Volver -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnVolver"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Agregar nuevo material"
-            android:textStyle="bold"
-            android:textColor="#333333"
-            android:textSize="22sp"
-            android:layout_gravity="center_horizontal"
-            android:paddingBottom="16dp"
-            android:paddingTop="8dp" />
+            android:text="Volver"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#7B3CBA"
+            app:cornerRadius="12dp"
+            app:icon="@drawable/baseline_arrow_back_24"
+            app:iconPadding="8dp"
+            app:iconGravity="textStart"
+            android:layout_marginBottom="20dp" />
 
-        <!-- Campos de texto -->
+        <!-- TextInput: Nombre del material -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Nombre del material"
             app:boxStrokeColor="#6A1B9A"
-            app:hintTextColor="#6A1B9A"
-            android:hint="Nombre del material">
+            app:hintTextColor="#6A1B9A">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etNombreMaterial"
                 android:layout_width="match_parent"
-                android:textColor="#333333"
                 android:layout_height="wrap_content"
-                android:inputType="textPersonName" />
+                android:textColor="#333333" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- TextInput: Cantidad -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:hint="Cantidad"
             app:boxStrokeColor="#6A1B9A"
-            app:hintTextColor="#6A1B9A"
-            android:layout_marginTop="12dp">
+            app:hintTextColor="#6A1B9A">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etCantidadMaterial"
                 android:layout_width="match_parent"
-                android:textColor="#333333"
                 android:layout_height="wrap_content"
-                android:inputType="number" />
+                android:inputType="number"
+                android:textColor="#333333" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- TextInput: Descripción -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:hint="Descripción"
             app:boxStrokeColor="#6A1B9A"
-            app:hintTextColor="#6A1B9A"
-            android:layout_marginTop="12dp">
+            app:hintTextColor="#6A1B9A">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etDescripcionMaterial"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="#333333"
+                android:minLines="2"
                 android:inputType="textMultiLine"
-                android:minLines="3" />
+                android:textColor="#333333" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Botón guardar -->
+        <!-- Imagen -->
+        <ImageView
+            android:id="@+id/imgPreviewMaterial"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:background="#DDDDDD"
+            android:src="@drawable/ic_launcher_background" />
+
+        <!-- Seleccionar Imagen -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSeleccionarImagen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Seleccionar Imagen"
+            android:textColor="@android:color/white"
+            android:backgroundTint="#7B3CBA"
+            app:cornerRadius="12dp"
+            android:layout_marginTop="16dp" />
+
+        <!-- Guardar Material -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnGuardarMaterial"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Guardar Material"
             android:textColor="@android:color/white"
             android:backgroundTint="#7B3CBA"
-            android:text="Guardar Material"
-            android:layout_marginTop="24dp"
-            style="@style/Widget.MaterialComponents.Button" />
+            app:cornerRadius="12dp"
+            android:layout_marginTop="24dp" />
+
     </LinearLayout>
 </ScrollView>

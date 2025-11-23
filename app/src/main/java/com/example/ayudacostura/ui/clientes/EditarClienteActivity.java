@@ -1,8 +1,6 @@
 package com.example.ayudacostura.ui.clientes;
 
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -10,17 +8,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.ayudacostura.R;
 import com.example.ayudacostura.Data.model.Cliente;
+import com.example.ayudacostura.R;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class EditarClienteActivity extends AppCompatActivity {
 
-    private EditText etNombre, etTelefono;
-    private Button btnGuardarCambios, btnCancelar;
+    private TextInputEditText etNombre, etTelefono;
+    private MaterialButton btnGuardarCambios, btnCancelar, btnVolver;
     private ClientesViewModel viewModel;
     private String clienteId;
-    private MaterialButton btnVolver;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,20 +26,23 @@ public class EditarClienteActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_editar_cliente);
 
-        // 🔹 Inicializar componentes
+        // -------------------------------------------------------------
+        // Inicializar vistas
+        // -------------------------------------------------------------
         etNombre = findViewById(R.id.etNombreEditar);
         etTelefono = findViewById(R.id.etTelefonoEditar);
         btnGuardarCambios = findViewById(R.id.btnGuardarCambios);
         btnCancelar = findViewById(R.id.btnCancelar);
-
         btnVolver = findViewById(R.id.btnVolver);
+
         btnVolver.setOnClickListener(v -> finish());
 
-
-        // 🔹 Inicializar ViewModel
+        // ViewModel
         viewModel = new ViewModelProvider(this).get(ClientesViewModel.class);
 
-        // 🔹 Recibir ID del cliente desde el intent
+        // -------------------------------------------------------------
+        // Obtener ID del cliente enviado desde ClientesActivity
+        // -------------------------------------------------------------
         clienteId = getIntent().getStringExtra("clienteId");
 
         if (clienteId == null || clienteId.isEmpty()) {
@@ -50,34 +51,58 @@ public class EditarClienteActivity extends AppCompatActivity {
             return;
         }
 
-        // 🔹 Observar lista de clientes para encontrar el que se va a editar
+        // -------------------------------------------------------------
+        // Cargar datos del cliente seleccionado
+        // Observa la lista de clientes y busca el que coincida por ID
+        // -------------------------------------------------------------
         viewModel.getClientes().observe(this, clientes -> {
             for (Cliente c : clientes) {
                 if (c.getId().equals(clienteId)) {
+
                     etNombre.setText(c.getNombre());
-                    etTelefono.setText(c.getTelefono());
+
+                    // Mostrar solo los últimos 8 dígitos del teléfono
+                    String telefono = c.getTelefono();
+                    if (telefono.length() >= 8) {
+                        etTelefono.setText(telefono.substring(telefono.length() - 8));
+                    } else {
+                        etTelefono.setText(telefono); // fallback por seguridad
+                    }
                     break;
                 }
             }
         });
 
-        // 🔹 Botón Guardar Cambios
+        // -------------------------------------------------------------
+        // Guardar cambios del cliente
+        // -------------------------------------------------------------
         btnGuardarCambios.setOnClickListener(v -> {
             String nuevoNombre = etNombre.getText().toString().trim();
-            String nuevoTelefono = etTelefono.getText().toString().trim();
+            String telefonoInput = etTelefono.getText().toString().trim();
 
+            // Validar formato del teléfono
+            if (telefonoInput.length() != 8) {
+                Toast.makeText(this, "Ingresa los 8 dígitos del teléfono", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Reconstruir teléfono para guardar en Firebase
+            String nuevoTelefono = "+569" + telefonoInput;
+
+            // Ejecutar actualización en el ViewModel
             viewModel.editarCliente(clienteId, nuevoNombre, nuevoTelefono);
 
-            // Mostrar mensaje en base a resultado
+            // Escuchar respuesta del repositorio
             viewModel.getMensaje().observe(this, mensaje -> {
                 Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
-                if (mensaje.contains("actualizado")) {
-                    finish(); // Cierra la pantalla si se actualiza correctamente
-                }
+
+                // Si se actualizó correctamente, cerrar la Activity
+                if (mensaje.contains("actualizado")) finish();
             });
         });
 
-        // 🔹 Botón Cancelar
+        // Botón cancelar
         btnCancelar.setOnClickListener(v -> finish());
     }
 }
+

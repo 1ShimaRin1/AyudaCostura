@@ -1,10 +1,12 @@
 package com.example.ayudacostura.ui.clientes;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,31 +19,36 @@ import java.util.List;
 
 public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.ClienteViewHolder> {
 
+    // Lista mostrada y lista original para filtros
     private List<Cliente> clientes;
-    private List<Cliente> clientesOriginal; // ✅ Lista completa sin filtrar
+    private List<Cliente> clientesOriginal;
 
+    // Callbacks para editar y eliminar
     public interface OnItemClickListener {
         void onEditClick(Cliente cliente);
         void onDeleteClick(Cliente cliente);
     }
 
-    private OnItemClickListener listener;
+    private final OnItemClickListener listener;
 
     public ClienteAdapter(List<Cliente> clientes, OnItemClickListener listener) {
         this.clientes = clientes;
-        this.clientesOriginal = new ArrayList<>(clientes); // copia original
+        this.clientesOriginal = new ArrayList<>(clientes); // copia completa
         this.listener = listener;
     }
 
     public void setClientes(List<Cliente> clientes) {
         this.clientes = clientes;
-        this.clientesOriginal = new ArrayList<>(clientes); // actualiza original
+        this.clientesOriginal = new ArrayList<>(clientes);
         notifyDataSetChanged();
     }
 
-    // ✅ Nuevo método para filtrar clientes
+    // ---------------------------------------------------------
+    // FILTRO DE BÚSQUEDA (nombre o teléfono)
+    // ---------------------------------------------------------
     public void filtrar(String texto) {
         List<Cliente> filtrados = new ArrayList<>();
+
         if (texto == null || texto.trim().isEmpty()) {
             filtrados.addAll(clientesOriginal);
         } else {
@@ -52,10 +59,14 @@ public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.ClienteV
                 }
             }
         }
+
         this.clientes = filtrados;
         notifyDataSetChanged();
     }
 
+    // ---------------------------------------------------------
+    // CREAR VIEWHOLDER
+    // ---------------------------------------------------------
     @NonNull
     @Override
     public ClienteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -64,17 +75,51 @@ public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.ClienteV
         return new ClienteViewHolder(view);
     }
 
+    // ---------------------------------------------------------
+    // BIND DE DATOS POR CADA ITEM
+    // ---------------------------------------------------------
     @Override
     public void onBindViewHolder(@NonNull ClienteViewHolder holder, int position) {
         Cliente cliente = clientes.get(position);
+
         holder.tvNombre.setText(cliente.getNombre());
         holder.tvTelefono.setText(cliente.getTelefono());
 
-        holder.btnEditar.setOnClickListener(v -> {
+        // ---------------------------------------------------------
+        // LLAMAR CLIENTE (acepta +56XXXXXXXX o 9XXXXXXXX)
+        // ---------------------------------------------------------
+        holder.btnLlamarCliente.setOnClickListener(v -> {
+            String telefono = cliente.getTelefono();
+
+            if (telefono.startsWith("+56") || telefono.matches("^9\\d{8}$")) {
+
+                // Si viene sin +56 se agrega
+                if (telefono.matches("^9\\d{8}$")) {
+                    telefono = "+56" + telefono;
+                }
+
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:" + telefono));
+                v.getContext().startActivity(intent);
+
+            } else {
+                Toast.makeText(v.getContext(),
+                        "Número de teléfono inválido",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // ---------------------------------------------------------
+        // EDITAR CLIENTE
+        // ---------------------------------------------------------
+        holder.btnEditarCliente.setOnClickListener(v -> {
             if (listener != null) listener.onEditClick(cliente);
         });
 
-        holder.btnEliminar.setOnClickListener(v -> {
+        // ---------------------------------------------------------
+        // ELIMINAR CLIENTE
+        // ---------------------------------------------------------
+        holder.btnEliminarCliente.setOnClickListener(v -> {
             if (listener != null) listener.onDeleteClick(cliente);
         });
     }
@@ -84,16 +129,24 @@ public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.ClienteV
         return clientes != null ? clientes.size() : 0;
     }
 
+    // ---------------------------------------------------------
+    // VIEWHOLDER (referencias a vistas)
+    // ---------------------------------------------------------
     public static class ClienteViewHolder extends RecyclerView.ViewHolder {
+
         TextView tvNombre, tvTelefono;
-        Button btnEditar, btnEliminar;
+        TextView btnEditarCliente, btnEliminarCliente;
+        View btnLlamarCliente;
 
         public ClienteViewHolder(@NonNull View itemView) {
             super(itemView);
+
             tvNombre = itemView.findViewById(R.id.tvNombre);
             tvTelefono = itemView.findViewById(R.id.tvTelefono);
-            btnEditar = itemView.findViewById(R.id.btnEditarCliente);
-            btnEliminar = itemView.findViewById(R.id.btnEliminarCliente);
+
+            btnEditarCliente = itemView.findViewById(R.id.btnEditarCliente);
+            btnEliminarCliente = itemView.findViewById(R.id.btnEliminarCliente);
+            btnLlamarCliente = itemView.findViewById(R.id.btnLlamarCliente);
         }
     }
 }

@@ -15,32 +15,50 @@ import java.util.UUID;
 
 public class PedidoRepository {
 
-    private final DatabaseReference ref = FirebaseDatabase.getInstance().getReference("pedidos");
+    // Referencia principal al nodo "pedidos" en Firebase
+    private final DatabaseReference ref =
+            FirebaseDatabase.getInstance().getReference("pedidos");
 
-    // 🔹 Agregar pedido
+    // ---------------------------------------------------------
+    // AGREGAR PEDIDO
+    // Genera ID si no existe y lo guarda en Firebase
+    // ---------------------------------------------------------
     public void agregarPedido(Pedido pedido, OnSuccessListener success, OnFailureListener failure) {
-        String id = pedido.getId() != null ? pedido.getId() : UUID.randomUUID().toString();
+
+        String id = (pedido.getId() != null)
+                ? pedido.getId()
+                : UUID.randomUUID().toString();
+
         pedido.setId(id);
 
         ref.child(id).setValue(pedido)
-                .addOnSuccessListener(aVoid -> success.onSuccess("Pedido agregado correctamente"))
-                .addOnFailureListener(e -> failure.onFailure(e));
+                .addOnSuccessListener(aVoid ->
+                        success.onSuccess("Pedido agregado correctamente"))
+                .addOnFailureListener(failure::onFailure);
     }
 
-    // 🔹 Actualizar pedido
+    // ---------------------------------------------------------
+    // ACTUALIZAR PEDIDO
+    // Evita actualizar si el ID es nulo
+    // ---------------------------------------------------------
     public void actualizarPedido(Pedido pedido, OnSuccessListener success, OnFailureListener failure) {
+
         if (pedido.getId() == null) {
             failure.onFailure(new Exception("ID del pedido es nulo"));
             return;
         }
 
         ref.child(pedido.getId()).setValue(pedido)
-                .addOnSuccessListener(aVoid -> success.onSuccess("Pedido actualizado correctamente"))
-                .addOnFailureListener(e -> failure.onFailure(e));
+                .addOnSuccessListener(aVoid ->
+                        success.onSuccess("Pedido actualizado correctamente"))
+                .addOnFailureListener(failure::onFailure);
     }
 
-    // 🔹 Obtener pedido por ID
+    // ---------------------------------------------------------
+    // OBTENER PEDIDO POR ID (solo una vez)
+    // ---------------------------------------------------------
     public void obtenerPedidoPorId(String id, OnPedidoCargadoListener listener) {
+
         ref.child(id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -55,16 +73,22 @@ public class PedidoRepository {
         });
     }
 
-    // 🔹 Obtener todos los pedidos
+    // ---------------------------------------------------------
+    // OBTENER TODOS LOS PEDIDOS (actualizaciones en tiempo real)
+    // ---------------------------------------------------------
     public void obtenerPedidos(OnPedidosCargadosListener listener) {
+
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                 List<Pedido> lista = new ArrayList<>();
+
                 for (DataSnapshot child : snapshot.getChildren()) {
                     Pedido pedido = child.getValue(Pedido.class);
                     lista.add(pedido);
                 }
+
                 listener.onPedidosCargados(lista);
             }
 
@@ -75,14 +99,20 @@ public class PedidoRepository {
         });
     }
 
-    // 🔹 Eliminar pedido por ID
+    // ---------------------------------------------------------
+    // ELIMINAR PEDIDO
+    // ---------------------------------------------------------
     public void eliminarPedido(String id, OnSuccessListener success, OnFailureListener failure) {
+
         ref.child(id).removeValue()
-                .addOnSuccessListener(aVoid -> success.onSuccess("Pedido eliminado correctamente"))
-                .addOnFailureListener(e -> failure.onFailure(e));
+                .addOnSuccessListener(aVoid ->
+                        success.onSuccess("Pedido eliminado correctamente"))
+                .addOnFailureListener(failure::onFailure);
     }
 
-    // 🔹 Interfaces
+    // ---------------------------------------------------------
+    // INTERFACES DE CALLBACK
+    // ---------------------------------------------------------
     public interface OnPedidosCargadosListener {
         void onPedidosCargados(List<Pedido> pedidos);
         void onError(Exception e);

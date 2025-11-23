@@ -66,14 +66,16 @@
             android:hint="Teléfono del cliente"
             android:layout_marginTop="12dp"
             app:boxStrokeColor="#6A1B9A"
-            app:hintTextColor="#6A1B9A">
+            app:hintTextColor="#6A1B9A"
+            app:prefixText="+56 9 ">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etTelefonoEditar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:textColor="#333333" />
+                android:inputType="number"
+                android:maxLength="8"
+                android:textColor="#333333"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <!-- Botón Guardar Cambios -->
